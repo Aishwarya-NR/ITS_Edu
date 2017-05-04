@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumino - Charts</title>
+{% load staticfiles %}
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/datepicker3.css' %}" rel="stylesheet">
+<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+<!--Icons-->
+<script src="{% static 'js/jquery-1.11.1.min.js'%}"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-database.js"></script>
+
+
+<!-- Custom Fonts -->
+<link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+<script src="{% static 'js/lumino.glyphs.js'%}"></script>
+<script src="{% static 'js/jquery-1.11.1.min.js'%}"></script>
+<script src="{% static 'js/bootstrap.min.js'%}"></script>
+<script src="{% static 'js/chart.min.js'%}"></script>
+<script src="{% static 'js/chart-data.js'%}"></script>
+<script src="{% static 'js/easypiechart.js'%}"></script>
+<script src="{% static 'js/easypiechart-data.js'%}"></script>
+<script src="{% static 'js/bootstrap-datepicker.js'%}"></script>
+<style>
+		#box {
+    
+    background: #809fff;
+	border: 2px solid #002db3;
+    padding: 20px;
+    width: 50px;
+    height: 15px;  
+	line-height:3px;
+}
+		#option1 {
+    
+   
+    padding: 20px; 
+    width: 850px;
+    height: 15px;  
+	
+}
+
+	#option2 {
+    
+   
+    padding: 20px; 
+    width: 850px;
+    height: 15px;  
+	
+}
+
+	#option3 {
+    
+   
+    padding: 20px; 
+    width: 850px;
+    height: 15px;  
+	
+}
+
+	#option4 {
+    
+   
+    padding: 20px; 
+    width: 850px;
+    height: 15px;  
+	
+}
+
+	#question_text {
+    
+   
+    padding: 20px; 
+    width: 850px;
+    height: 15px;  
+	
+}
+		select {
+    
+   
+    
+    width: 500px;
+    height: 50px;
+	font-weight:normal;
+	
+}
+
+#check1 {
+	
+	width:25px;
+	height:20px;
+}
+#check2 {
+	
+	width:25px;
+	height:20px;
+}
+#check3 {
+
+
+	
+	width:25px;
+	height:20px;
+}
+#check4 {
+	
+	width:25px;
+	height:20px;
+}
+#mc {
+	display:none;
+}
+#save{
+	width:120px;
+	background-color:#8585ad;
+}
+
+p.normal{
+	font-style: normal;
+	font-family: "Times New Roman", Times, serif;
+}
+#mcq {
+	
+	border-radius: 25px;
+    border: 2px solid #007a99;
+    padding: 15px; 
+    width: 200px;
+    height: 50px;
+	float:right;
+	
+}
+
+#tf {
+	
+	border-radius: 25px;
+	background-color:white;
+    border: 2px solid #ff0000;
+    padding: 15px; 
+    width: 200px;
+    height: 50px;
+	
+}
+
+#mcq1 {
+	border-radius: 25px;
+	background-color:white;
+    border: 2px solid #007a99;
+    padding: 15px; 
+    width: 200px;
+    height: 50px;
+	float:right;
+	display:none;
+}
+
+#mcq2 {
+	border-radius: 25px;
+	background-color:white;
+    border: 2px solid #007a99;
+    padding: 15px; 
+    width: 200px;
+    height: 50px;
+	float:right;
+	display:none;
+}
+#trf {
+	display:none;
+}
+#correct {
+	display:none;
+}
+#correct_c {
+	display:none;
+}
+
+#save_exit {
+	background-color:#8cd9b3;
+	text-color:white:
+}
+
+
+	</style>
+<script>
+
+function add() {
+    document.getElementById('mc').style.display = "block";
+	document.getElementById('subjects').style.display = "none";
+
+	document.getElementById('mcq').style.display = "none";
+		
+	}
+	
+
+
+	
+	
+	function correct_ans() {
+							
+
+var config = {
+    apiKey: "AIzaSyDkrThcZue7o9NIsNkV8XVHt3qZEPfkJNU",
+    authDomain: "quizdata-b6c64.firebaseapp.com",
+    databaseURL: "https://quizdata-b6c64.firebaseio.com",
+    storageBucket: "quizdata-b6c64.appspot.com",
+    messagingSenderId: "662788470433"
+  };
+  var defaultApp = firebase.initializeApp(config);
+ var answer=0;
+alert("AAA");
+var timestamp = new Date().getUTCMilliseconds();
+firebase.database().ref('question/'+(new Date()).getTime()).set({
+     Question: document.getElementById('question_text').value,
+    choice1: document.getElementById('option1').value,
+    choice2: document.getElementById('option2').value,
+    choice3: document.getElementById('option3').value,
+    choice4: document.getElementById('option4').value,
+    subject:document.getElementById('subject').value,
+answer:answer 		
+
+});
+  
+
+					
+					
+						
+}
+	
+
+
+
+
+
+</script>
+<!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><span>EDU</span>APP</a>
+				<ul class="user-menu">
+					<li class="dropdown pull-right">
+						<a href="/#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="/#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+							<li><a href="/#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+							<li><a href="/#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+							
+		</div><!-- /.container-fluid -->
+	</nav>
+		
+	{% if request.user.is_superuser %}
+
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li class="active"><a href="#"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Home</a></li>
+			<li><a href="/charts"><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Charts</a></li>
+			<li><a href="/tables"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Tables</a></li>
+			<!--<li><a href="forms"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Forms</a></li>-->
+			<!--<li><a href="icons"><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg> Icons</a></li>-->
+			<li><a href="/setquestion"><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg>Set Questions</a></li>
+			<li><a href="/register"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg>Create User</a></li>
+			<li role="presentation" class="divider"></li>
+			<li><a href="/login"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Logout</a></li>
+		</ul>
+
+	</div>
+	{% else %}
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li class="active"><a href="#"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Home</a></li>
+			<li><a href="/charts"><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Charts</a></li>
+			<!--<li><a href="forms"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Forms</a></li>-->
+			<!--<li><a href="icons"><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg> Icons</a></li>-->
+			<li role="presentation" class="divider"></li>
+			<li><a href="/login"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Logout</a></li>
+		</ul>
+
+	</div>
+	{% endif %}
+
+		
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="/#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+				<li class="active">Icons</li>
+			</ol>
+		</div><!--/.row-->
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Set questions</h1>
+				
+			</div>
+		</div><!--/.row-->
+		<section id="portfolio">
+        <div class="container">
+            <div class="row">
+          
+				<h2></h2>
+				&nbsp;&nbsp;
+            </div>
+            <div class="row">
+                <main>
+			<!--	<div class = "container"> -->
+					
+					&nbsp;&nbsp;
+					&nbsp;&nbsp; 
+					<h3><center>Create Quiz</center><h3>
+					
+					<br>
+					<div id="options">
+					<p class="normal" id="question">
+						QUESTIONS
+					</p>
+					</div>
+					<br/>
+					<div id="subjects">
+					    <select id="subject">
+							<option value="Maths">Mathematics</option>
+							<option value="English">English</option>
+							<option value="Aptitude">Aptitude</option>
+						</select>
+						
+						
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					
+						<button id="mcq" type="button" class="btn btn-outline-primary" onclick="add()">+ Add question</button>
+						
+					</div>
+					<br>							
+					<div id="mc" class="jumbotron">
+					<form method="post" onsubmit="correct_ans()" action="">{% csrf_token %}
+					
+				
+					<p>
+		
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					
+						<input  id="save" type='submit'  value="save" name="add question"  class="btn btn-success"/ >
+						</p>
+						
+						<p>
+				
+												
+							&nbsp;&nbsp;
+							&nbsp;&nbsp;
+							<p>question</p>
+							<input id="question_text"type="text" name="question_text" size=100 />
+						</p>
+						
+						<p>				
+							Answer Choice
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							Correct?
+						</p>	
+							
+							<p> 
+								<label id="box">A</label>
+						&nbsp;&nbsp;
+								<input id="option1" type="text" name="choice1" size=60 />
+								&nbsp;&nbsp;&nbsp;
+								<label><input id="check1" type="checkbox" ></label>
+								
+						
+							<br>
+							
+						
+						</p>
+						
+						<p> 
+								<label id="box">B</label>
+						&nbsp;&nbsp;
+								<input id="option2" type="text"  name="choice2" size=60 />
+								&nbsp;&nbsp;&nbsp;
+								<label><input id="check2"type="checkbox"></label>
+							
+							<br>
+						</p>
+						
+						<p> <label id="box">C</label>
+						&nbsp;&nbsp;
+								<input id="option3" type="text" name="choice3" size=60 />
+								&nbsp;&nbsp;&nbsp;
+								<label><input id="check3" type="checkbox" ></label>
+							
+							<br>
+						</p>
+						
+						<p>
+						
+								<label id="box">D</label>
+						&nbsp;&nbsp;
+								<input id="option4" type="text" name="choice4" size=60 />
+								&nbsp;&nbsp;&nbsp;
+								<label><input id="check4" n    type="checkbox"></label>
+							
+							<br>
+						</p>
+					
+							
+					</form>
+				</div>
+					<p id="test">
+					</p>
+					
+					
+					<br>
+					
+					
+			<!--	</div> -->
+
+			</main>
+        </div>
+    </section>
+
+
+<script>
+		!function ($) {
+		    $(document).on("click","ul.nav li.parent > a > span.icon", function(){          
+		        $(this).find('em:first').toggleClass("glyphicon-minus");      
+		    }); 
+		    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+		}(window.jQuery);
+
+		$(window).on('resize', function () {
+		  if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+		})
+		$(window).on('resize', function () {
+		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+		})
+	</script>	
+</body>
+
+</html>

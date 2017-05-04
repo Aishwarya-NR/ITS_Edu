@@ -8,6 +8,6 @@ urlpatterns = [
 	url(r'^widgets/',views.widgets, name='widgets'),
 	url(r'^panels/',views.panels, name='panels'),
 	url(r'^fire/',views.fire, name='fire'),
-
-	
+	url(r'^setquestion/',views.setquestion, name='setquestion'),
+	url(r'^register/',views.register, name='register')
 ]

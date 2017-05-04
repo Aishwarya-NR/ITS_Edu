@@ -19,14 +19,22 @@ var region=[]
 var gender=[]
 var subject=[]
 defaultDatabase.on('child_added',function(snap) {
+	
 	age.push(snap.val().Age);
 	name.push(snap.val().Name);
 	score.push(snap.val().Score);
 	subject.push(snap.val().Subject);
-	gender.push(snap.val().gender);
+	gender.push(snap.val().Gender);
 	region.push(snap.val().Region);
 
-	$("#tables").append("<tr><td>"+snap.val().Name+"</td><td>"+snap.val().Age+"</td><td>"+snap.val().gender+"</td><td>"+snap.val().Region+"</td><td>"+snap.val().Score+"</td></tr>");
+	$("#tables").append("<tr><td>"+snap.val().Name+"</td><td>"+snap.val().Age+"</td><td>"+snap.val().Gender+"</td><td>"+snap.val().Region+"</td><td>"+snap.val().score+"</td></tr>");
 });
+
+
+firebase.database().ref('users/').set({
+    username: "SSS"	,
+    email: "email",
+    profile_picture : "imageUrl"
+  });
 });
  
